@@ -1,40 +1,36 @@
-// Navbar
-let menu = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
+let cart = [];
 
-menu.onclick = () => {
-    navbar.classList.toggle('active');
+function addToCart(name, price) {
+    cart.push({ name, price });
+    alert(`${name} has been added to your cart!`);
+    updateCart();
 }
 
-window.onscroll = () => {
-    navbar.classList.remove('active');
+function updateCart() {
+    const cartItems = document.getElementById('cartItems');
+    const totalPriceElement = document.getElementById('totalPrice');
+    cartItems.innerHTML = '';
+    let totalPrice = 0;
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.textContent = `${item.name} - $${item.price}`;
+        cartItems.appendChild(itemElement);
+        totalPrice += item.price;
+    });
+    totalPriceElement.textContent = `Total: $${totalPrice}`;
 }
-// Dark Mode
-let darkmode = document.querySelector('#darkmode');
 
-darkmode.onclick = () => {
-    if(darkmode.classList.contains('bx-moon')){
-        darkmode.classList.replace('bx-moon','bx-sun');
-        document.body.classList.add('active');
-    }else{
-        darkmode.classList.replace('bx-sun','bx-moon');
-        document.body.classList.remove('active');
+function checkout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
     }
+    alert('Thank you for your purchase!');
+    cart = [];
+    updateCart();
 }
 
-// Scroll Reveal
-const sr = ScrollReveal ({
-    origin: 'top',
-    distance: '40px',
-    duration: 2000,
-    reset: true
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert('Thank you for contacting us!');
 });
-
-
-sr.reveal(`.home-text, .home-img,
-            .about-img, .about-text,
-            .box, .s-box,
-            .btn, .connect-text,
-            .contact-box`, {
-    interval: 200
-})
